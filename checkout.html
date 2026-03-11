@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Secure Checkout — Sweet Delights Bakery">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧁</text></svg>">
+    <title>Checkout — Sweet Delights Bakery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── CHECKOUT PAGE EXCLUSIVE STYLES ── */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-light, #fdf9f4);
+            color: var(--text-dark, #1e1208);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── TOP BAR ── */
+        .co-topbar {
+            position: sticky; top: 0; z-index: 900;
+            background: var(--bg-light, #fdf9f4);
+            border-bottom: 1px solid rgba(200,64,30,0.1);
+            padding: 0 24px;
+            height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 1px 12px rgba(30,18,8,0.06);
+        }
+        .co-topbar-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem; font-weight: 700;
+            color: var(--primary, #c8401e);
+            text-decoration: none; letter-spacing: 0.5px;
+        }
+        .co-topbar-back {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.88rem; font-weight: 600;
+            color: var(--text-muted, #7a6a60);
+            text-decoration: none;
+            padding: 8px 14px; border-radius: 10px;
+            transition: background 0.2s, color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .co-topbar-back:hover { background: rgba(200,64,30,0.07); color: var(--primary,#c8401e); }
+        .co-secure-badge {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 0.78rem; font-weight: 600;
+            color: #27ae60; background: rgba(39,174,96,0.1);
+            padding: 5px 12px; border-radius: 20px;
+        }
+
+        /* ── PAGE LAYOUT ── */
+        .co-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* ── SECTION CARD ── */
+        .co-card {
+            background: var(--card-bg, #fff);
+            border-radius: 20px;
+            border: 1px solid rgba(200,64,30,0.08);
+            box-shadow: 0 4px 24px rgba(30,18,8,0.07);
+            overflow: hidden;
+        }
+        .co-card-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid rgba(200,64,30,0.08);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .co-card-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem; font-weight: 700;
+            color: var(--text-dark, #1e1208);
+        }
+        .co-card-header .co-step {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: var(--primary, #c8401e);
+            color: white; font-size: 0.8rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .co-card-body { padding: 24px 28px; }
+
+        /* ── FORM ELEMENTS ── */
+        .co-field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .co-field label {
+            display: block;
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--text-muted, #7a6a60);
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 7px;
+        }
+        .co-field input,
+        .co-field textarea,
+        .co-field select {
+            width: 100%;
+            padding: 13px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark, #1e1208);
+            background: var(--bg-light, #fdf9f4);
+            border: 1.5px solid rgba(200,64,30,0.18);
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .co-field input:focus,
+        .co-field textarea:focus,
+        .co-field select:focus {
+            border-color: var(--primary, #c8401e);
+            box-shadow: 0 0 0 3px rgba(200,64,30,0.1);
+            background: var(--card-bg, #fff);
+        }
+        .co-field input::placeholder,
+        .co-field textarea::placeholder { color: rgba(122,106,96,0.5); }
+
+        .co-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* Card number with icon */
+        .co-field-icon { position: relative; }
+        .co-field-icon input { padding-right: 50px; }
+        .co-field-icon .field-icon {
+            position: absolute; right: 14px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem; pointer-events: none;
+        }
+
+        /* ── ORDER TYPE ── */
+        .co-order-type { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .co-type-option { position: relative; }
+        .co-type-option input[type="radio"] {
+            position: absolute; opacity: 0; width: 0; height: 0;
+        }
+        .co-type-label {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 16px 12px; border-radius: 14px;
+            border: 2px solid rgba(200,64,30,0.14);
+            background: var(--bg-light, #fdf9f4);
+            cursor: pointer; text-align: center;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none; -webkit-user-select: none;
+        }
+        .co-type-label .type-icon { font-size: 1.6rem; line-height: 1; }
+        .co-type-label .type-name { font-size: 0.85rem; font-weight: 700; color: var(--text-dark,#1e1208); }
+        .co-type-label .type-desc { font-size: 0.72rem; color: var(--text-muted,#7a6a60); }
+        .co-type-option input:checked + .co-type-label {
+            border-color: var(--primary, #c8401e);
+            background: rgba(200,64,30,0.06);
+        }
+        .co-type-label:hover { transform: translateY(-2px); border-color: rgba(200,64,30,0.35); }
+
+        /* ── SCHEDULE SECTION ── */
+        .co-schedule-toggle {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 16px; border-radius: 12px;
+            background: rgba(200,64,30,0.04);
+            border: 1.5px dashed rgba(200,64,30,0.2);
+            cursor: pointer; margin-bottom: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .co-schedule-toggle input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: var(--primary, #c8401e);
+            cursor: pointer; flex-shrink: 0;
+        }
+        .co-schedule-toggle span { font-size: 0.9rem; font-weight: 600; }
+        .co-schedule-fields {
+            display: none; margin-top: 14px;
+        }
+        .co-schedule-fields.show { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* ── CARD LOGOS ── */
+        .co-card-logos {
+            display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+        }
+        .co-card-logo {
+            background: var(--bg-light, #fdf9f4);
+            border: 1.5px solid rgba(200,64,30,0.12);
+            border-radius: 8px; padding: 5px 10px;
+            font-size: 0.72rem; font-weight: 700;
+            color: var(--text-muted, #7a6a60);
+            letter-spacing: 0.5px;
+        }
+
+        /* ── ORDER SUMMARY CARD ── */
+        .co-summary-sticky {
+            position: sticky;
+            top: 80px;
+        }
+        .co-item-list { list-style: none; margin-bottom: 18px; }
+        .co-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(200,64,30,0.06);
+        }
+        .co-item:last-child { border-bottom: none; }
+        .co-item-emoji { font-size: 1.6rem; flex-shrink: 0; }
+        .co-item-info { flex: 1; min-width: 0; }
+        .co-item-name { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .co-item-price { font-size: 0.88rem; font-weight: 700; color: var(--primary,#c8401e); flex-shrink: 0; }
+
+        .co-totals { border-top: 1.5px dashed rgba(200,64,30,0.18); padding-top: 16px; }
+        .co-total-row {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.88rem; margin-bottom: 8px;
+            color: var(--text-muted,#7a6a60);
+        }
+        .co-total-row.grand {
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--text-dark,#1e1208);
+            margin-top: 10px; padding-top: 12px;
+            border-top: 2px solid rgba(200,64,30,0.15);
+        }
+        .co-total-row.grand span:last-child { color: var(--primary,#c8401e); font-size: 1.2rem; }
+        .co-discount-row { color: #27ae60; }
+
+        /* ── COUPON ── */
+        .co-coupon {
+            display: flex; gap: 8px; margin-bottom: 18px;
+        }
+        .co-coupon input {
+            flex: 1; padding: 10px 14px;
+            font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+            background: var(--bg-light,#fdf9f4);
+            border: 1.5px solid rgba(200,64,30,0.18); border-radius: 10px;
+            color: var(--text-dark,#1e1208); outline: none;
+            -webkit-appearance: none;
+        }
+        .co-coupon input:focus { border-color: var(--primary,#c8401e); }
+        .co-coupon button {
+            padding: 10px 16px; border-radius: 10px; border: none;
+            background: var(--primary,#c8401e); color: white;
+            font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .co-coupon button:hover { background: var(--primary-dark,#a33218); }
+
+        /* ── SUBMIT BUTTON ── */
+        .co-submit-btn {
+            width: 100%; padding: 17px 24px;
+            font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700;
+            background: var(--primary, #c8401e);
+            color: white; border: none; border-radius: 14px;
+            cursor: pointer; letter-spacing: 0.3px;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(200,64,30,0.3);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .co-submit-btn:hover { background: var(--primary-dark,#a33218); transform: translateY(-1px); box-shadow: 0 8px 26px rgba(200,64,30,0.35); }
+        .co-submit-btn:active { transform: translateY(1px); }
+        .co-submit-btn:disabled { background: #c9a89a; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        /* ── EMPTY STATE ── */
+        .co-empty {
+            text-align: center; padding: 60px 24px;
+            display: none;
+        }
+        .co-empty.show { display: block; }
+        .co-empty-icon { font-size: 3.5rem; margin-bottom: 12px; }
+        .co-empty h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 8px; }
+        .co-empty p { color: var(--text-muted,#7a6a60); font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* ── SUCCESS STATE ── */
+        .co-success {
+            display: none;
+            text-align: center;
+            padding: 60px 24px;
+        }
+        .co-success.show { display: block; }
+        .co-success-icon { font-size: 4rem; margin-bottom: 16px; animation: coSuccessBounce 0.6s cubic-bezier(0.175,0.885,0.32,1.4) forwards; }
+        .co-success h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: #27ae60; margin-bottom: 8px; }
+        .co-success p { color: var(--text-muted,#7a6a60); font-size: 0.95rem; line-height: 1.6; margin-bottom: 6px; }
+        .co-success .order-id { font-size: 0.82rem; font-weight: 700; background: rgba(39,174,96,0.1); color: #27ae60; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 24px; }
+        .co-success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+        .co-success-actions a {
+            padding: 12px 24px; border-radius: 12px; font-weight: 700;
+            text-decoration: none; font-size: 0.9rem;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .co-btn-primary { background: var(--primary,#c8401e); color: white; box-shadow: 0 4px 14px rgba(200,64,30,0.3); }
+        .co-btn-primary:hover { background: #a33218; }
+        .co-btn-ghost { background: transparent; color: var(--text-dark,#1e1208); border: 2px solid rgba(200,64,30,0.2); }
+        .co-btn-ghost:hover { border-color: var(--primary,#c8401e); color: var(--primary,#c8401e); }
+
+        /* ── TRUST BADGES ── */
+        .co-trust {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            padding: 16px 0 4px; border-top: 1px solid rgba(200,64,30,0.08);
+            margin-top: 16px;
+        }
+        .co-trust-badge {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 0.72rem; font-weight: 600;
+            color: var(--text-muted,#7a6a60);
+        }
+
+        /* ── PROGRESS STEPS ── */
+        .co-steps {
+            display: flex; align-items: center; gap: 0;
+            padding: 16px 28px 0; margin-bottom: -4px;
+        }
+        .co-step-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; font-weight: 600;
+            color: var(--text-muted,#7a6a60);
+            flex: 1;
+        }
+        .co-step-item.active { color: var(--primary,#c8401e); }
+        .co-step-item.done { color: #27ae60; }
+        .co-step-dot {
+            width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+            border: 2px solid rgba(122,106,96,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 700;
+        }
+        .co-step-item.active .co-step-dot { border-color: var(--primary,#c8401e); background: var(--primary,#c8401e); color: white; }
+        .co-step-item.done .co-step-dot { border-color: #27ae60; background: #27ae60; color: white; }
+        .co-step-line { flex: 1; height: 1px; background: rgba(122,106,96,0.2); margin: 0 6px; }
+
+        /* ── DARK MODE ── */
+        body.dark-mode .co-topbar { background: var(--footer-bg, #1e1208); border-color: rgba(255,255,255,0.06); }
+        body.dark-mode .co-card { background: #2a1a0e; border-color: rgba(255,255,255,0.06); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+        body.dark-mode .co-field input,
+        body.dark-mode .co-field textarea,
+        body.dark-mode .co-field select { background: #1e1208; border-color: rgba(255,255,255,0.1); color: #f5ede4; }
+        body.dark-mode .co-field input:focus,
+        body.dark-mode .co-field textarea:focus { background: #2a1a0e; }
+        body.dark-mode .co-type-label { background: #1e1208; border-color: rgba(255,255,255,0.1); }
+        body.dark-mode .co-type-label .type-name { color: #f5ede4; }
+        body.dark-mode .co-type-option input:checked + .co-type-label { background: rgba(200,64,30,0.12); }
+        body.dark-mode .co-schedule-toggle { background: rgba(200,64,30,0.08); border-color: rgba(200,64,30,0.3); }
+        body.dark-mode .co-coupon input { background: #1e1208; border-color: rgba(255,255,255,0.1); color: #f5ede4; }
+        body.dark-mode .co-card-logo { background: #1e1208; border-color: rgba(255,255,255,0.1); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes coSuccessBounce {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes coFadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .co-card { animation: coFadeUp 0.4s ease both; }
+        .co-card:nth-child(2) { animation-delay: 0.08s; }
+
+        /* ── MOBILE RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .co-topbar { padding: 0 16px; height: 58px; }
+            .co-topbar-logo { font-size: 1.25rem; }
+            .co-secure-badge { display: none; }
+
+            .co-page {
+                grid-template-columns: 1fr;
+                padding: 16px 12px 48px;
+                gap: 16px;
+            }
+            /* On mobile: summary goes below form */
+            .co-summary-sticky { position: static; order: 2; }
+            .co-form-section { order: 1; }
+
+            .co-card-body { padding: 18px 18px; }
+            .co-card-header { padding: 16px 18px 14px; }
+            .co-card-header h2 { font-size: 1.1rem; }
+
+            .co-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .co-order-type { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .co-type-label { padding: 12px 8px; }
+            .co-type-label .type-icon { font-size: 1.4rem; }
+            .co-type-label .type-name { font-size: 0.8rem; }
+
+            .co-schedule-fields.show { grid-template-columns: 1fr 1fr; }
+
+            .co-submit-btn { padding: 16px; font-size: 1rem; }
+            .co-field input, .co-field textarea, .co-field select { font-size: 16px; /* prevents iOS zoom */ }
+        }
+
+        @media (max-width: 360px) {
+            .co-row { grid-template-columns: 1fr; }
+            .co-schedule-fields.show { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="page-fade-in">
+
+    <!-- TOP BAR -->
+    <header class="co-topbar">
+        <a href="index.html" class="co-topbar-logo">🧁 Sweet Delights</a>
+        <div class="co-secure-badge">🔒 Secure Checkout</div>
+        <a href="index.html" class="co-topbar-back">← Back to Menu</a>
+    </header>
+
+    <!-- PAGE -->
+    <main class="co-page" id="co-page-main">
+
+        <!-- LEFT: FORM -->
+        <section class="co-form-section">
+
+            <!-- CARD DETAILS -->
+            <div class="co-card" style="margin-bottom:20px;">
+                <div class="co-card-header">
+                    <div class="co-step">1</div>
+                    <h2>Payment Details</h2>
+                </div>
+                <div class="co-card-body">
+                    <div class="co-card-logos">
+                        <span class="co-card-logo">VISA</span>
+                        <span class="co-card-logo">MC</span>
+                        <span class="co-card-logo">AMEX</span>
+                        <span class="co-card-logo">DISCOVER</span>
+                    </div>
+                    <form id="checkout-form" autocomplete="on" novalidate>
+                        <div class="co-field">
+                            <label for="co-name">Name on Card</label>
+                            <input type="text" id="co-name" name="cc-name" autocomplete="cc-name" placeholder="John Smith" required>
+                        </div>
+                        <div class="co-field co-field-icon">
+                            <label for="co-num">Card Number</label>
+                            <input type="text" id="co-num" name="cc-number" autocomplete="cc-number" placeholder="1234  5678  9012  3456" inputmode="numeric" maxlength="19" required>
+                            <span class="field-icon" id="card-type-icon">💳</span>
+                        </div>
+                        <div class="co-row">
+                            <div class="co-field">
+                                <label for="co-exp">Expiry Date</label>
+                                <input type="text" id="co-exp" name="cc-exp" autocomplete="cc-exp" placeholder="MM / YY" inputmode="numeric" maxlength="7" required>
+                            </div>
+                            <div class="co-field">
+                                <label for="co-cvv">CVV / CVC</label>
+                                <input type="password" id="co-cvv" name="cc-csc" autocomplete="cc-csc" placeholder="•••" inputmode="numeric" maxlength="4" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- DELIVERY OPTIONS -->
+            <div class="co-card">
+                <div class="co-card-header">
+                    <div class="co-step">2</div>
+                    <h2>Delivery Options</h2>
+                </div>
+                <div class="co-card-body">
+                    <div class="co-order-type">
+                        <div class="co-type-option">
+                            <input type="radio" name="orderType" id="ot-pickup" value="pickup" checked>
+                            <label for="ot-pickup" class="co-type-label">
+                                <span class="type-icon">🏬</span>
+                                <span class="type-name">Store Pickup</span>
+                                <span class="type-desc">Free · Ready in 30 min</span>
+                            </label>
+                        </div>
+                        <div class="co-type-option">
+                            <input type="radio" name="orderType" id="ot-delivery" value="delivery">
+                            <label for="ot-delivery" class="co-type-label">
+                                <span class="type-icon">🛵</span>
+                                <span class="type-name">Home Delivery</span>
+                                <span class="type-desc">+$5.00 · 45–60 min</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Delivery address (shown when delivery selected) -->
+                    <div id="co-address-wrap" style="display:none; margin-bottom:16px;">
+                        <div class="co-field" style="margin-bottom:10px;">
+                            <label for="co-address">Delivery Address</label>
+                            <textarea id="co-address" placeholder="Enter your full delivery address..." rows="2" style="resize:none;"></textarea>
+                        </div>
+                        <button type="button" id="co-gps-btn" style="width:100%;padding:11px;border-radius:10px;border:none;background:#2980b9;color:white;font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;touch-action:manipulation;">📍 Use My Current Location</button>
+                    </div>
+
+                    <!-- Schedule -->
+                    <label class="co-schedule-toggle" for="co-schedule-cb">
+                        <input type="checkbox" id="co-schedule-cb">
+                        <span>📅 Schedule for Later</span>
+                    </label>
+                    <div class="co-schedule-fields" id="co-schedule-fields">
+                        <div class="co-field" style="margin-bottom:0;">
+                            <label for="co-date">Date</label>
+                            <input type="date" id="co-date">
+                        </div>
+                        <div class="co-field" style="margin-bottom:0;">
+                            <label for="co-time">Time</label>
+                            <input type="time" id="co-time">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <aside class="co-summary-sticky">
+            <div class="co-card" id="co-summary-card">
+                <div class="co-card-header">
+                    <div class="co-step" style="background:#c9963e;">✓</div>
+                    <h2>Your Order</h2>
+                </div>
+                <div class="co-card-body">
+
+                    <!-- Empty state -->
+                    <div class="co-empty show" id="co-empty-state">
+                        <div class="co-empty-icon">🛒</div>
+                        <h3>Your tray is empty</h3>
+                        <p>Add some treats from our menu first!</p>
+                        <a href="index.html" class="co-submit-btn" style="display:inline-block;text-decoration:none;text-align:center;padding:13px 24px;font-size:0.95rem;">Browse Menu</a>
+                    </div>
+
+                    <!-- Cart items -->
+                    <ul class="co-item-list" id="co-item-list" style="display:none;"></ul>
+
+                    <!-- Coupon -->
+                    <div class="co-coupon" id="co-coupon-wrap" style="display:none;">
+                        <input type="text" id="co-coupon" placeholder="Coupon code" style="text-transform:uppercase;">
+                        <button type="button" id="co-coupon-btn">Apply</button>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="co-totals" id="co-totals" style="display:none;">
+                        <div class="co-total-row"><span>Subtotal</span><span id="co-subtotal">$0.00</span></div>
+                        <div class="co-total-row co-discount-row" id="co-discount-row" style="display:none;"><span>Discount 🎉</span><span id="co-discount-val">-$0.00</span></div>
+                        <div class="co-total-row" id="co-delivery-fee-row" style="display:none;"><span>Delivery</span><span>$5.00</span></div>
+                        <div class="co-total-row"><span>Tax (8%)</span><span id="co-tax">$0.00</span></div>
+                        <div class="co-total-row grand"><span>Total</span><span id="co-grand-total">$0.00</span></div>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" form="checkout-form" id="co-pay-btn" class="co-submit-btn" style="margin-top:18px;display:none;">
+                        Pay <span id="co-pay-amount">$0.00</span>
+                    </button>
+
+                    <!-- Trust -->
+                    <div class="co-trust" id="co-trust" style="display:none;">
+                        <span class="co-trust-badge">🔒 SSL Encrypted</span>
+                        <span class="co-trust-badge">✅ Secure Payment</span>
+                        <span class="co-trust-badge">🔄 Easy Returns</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- SUCCESS STATE (replaces main content) -->
+    <div class="co-success" id="co-success-state">
+        <div class="co-success-icon">🎉</div>
+        <h2>Order Placed!</h2>
+        <p>Thank you, <strong id="co-success-name"></strong>!</p>
+        <p>We're baking your order right now.</p>
+        <div class="order-id" id="co-success-order-id"></div>
+        <div class="co-success-actions">
+            <a href="orders.html" class="co-btn-primary">📦 Track My Order</a>
+            <a href="index.html" class="co-btn-ghost">← Back to Menu</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        // ── SAFE STORAGE ──
+        var SS = {
+            get: function(k) { try { return localStorage.getItem(k); } catch(e) { return null; } },
+            set: function(k,v) { try { localStorage.setItem(k,v); } catch(e) {} },
+            getJ: function(k,d) { try { var v=localStorage.getItem(k); return v?JSON.parse(v):d; } catch(e) { return d; } },
+            setJ: function(k,v) { try { localStorage.setItem(k,JSON.stringify(v)); } catch(e) {} }
+        };
+
+        // ── DARK MODE (instant, no flash) ──
+        if (SS.get('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // ── STATE ──
+        var cart = SS.getJ('bakeryCart', []);
+        var discountPct = 0;
+        var isDelivery = false;
+
+        // ── ELEMENTS ──
+        var form          = document.getElementById('checkout-form');
+        var emptyState    = document.getElementById('co-empty-state');
+        var itemList      = document.getElementById('co-item-list');
+        var couponWrap    = document.getElementById('co-coupon-wrap');
+        var totalsEl      = document.getElementById('co-totals');
+        var payBtn        = document.getElementById('co-pay-btn');
+        var trustEl       = document.getElementById('co-trust');
+        var successState  = document.getElementById('co-success-state');
+        var pageMain      = document.getElementById('co-page-main');
+
+        // ── RENDER CART ──
+        function renderCart() {
+            if (!cart || cart.length === 0) {
+                emptyState.classList.add('show');
+                itemList.style.display = 'none';
+                couponWrap.style.display = 'none';
+                totalsEl.style.display = 'none';
+                payBtn.style.display = 'none';
+                trustEl.style.display = 'none';
+                return;
+            }
+            emptyState.classList.remove('show');
+            itemList.style.display = 'block';
+            couponWrap.style.display = 'flex';
+            totalsEl.style.display = 'block';
+            payBtn.style.display = 'block';
+            trustEl.style.display = 'flex';
+
+            itemList.innerHTML = cart.map(function(item) {
+                return '<li class="co-item">' +
+                    '<span class="co-item-emoji">' + (item.emoji || '🧁') + '</span>' +
+                    '<div class="co-item-info"><div class="co-item-name">' + (item.name||'Item') + '</div></div>' +
+                    '<span class="co-item-price">' + (item.price||'$0.00') + '</span>' +
+                '</li>';
+            }).join('');
+
+            updateTotals();
+        }
+
+        function calcSubtotal() {
+            return cart.reduce(function(sum, item) {
+                var p = parseFloat((item.price||'0').replace(/[^0-9.]/g,'')) || 0;
+                return sum + p;
+            }, 0);
+        }
+
+        function updateTotals() {
+            var sub    = calcSubtotal();
+            var disc   = sub * discountPct / 100;
+            var del    = isDelivery ? 5 : 0;
+            var taxable = sub - disc + del;
+            var tax    = taxable * 0.08;
+            var grand  = taxable + tax;
+
+            document.getElementById('co-subtotal').textContent = '$' + sub.toFixed(2);
+            document.getElementById('co-tax').textContent      = '$' + tax.toFixed(2);
+            document.getElementById('co-grand-total').textContent = '$' + grand.toFixed(2);
+            document.getElementById('co-pay-amount').textContent = '$' + grand.toFixed(2);
+
+            var discRow = document.getElementById('co-discount-row');
+            if (discountPct > 0) {
+                discRow.style.display = 'flex';
+                document.getElementById('co-discount-val').textContent = '-$' + disc.toFixed(2);
+            } else {
+                discRow.style.display = 'none';
+            }
+            var delRow = document.getElementById('co-delivery-fee-row');
+            delRow.style.display = isDelivery ? 'flex' : 'none';
+        }
+
+        // ── DELIVERY TOGGLE ──
+        var pickupRadio   = document.getElementById('ot-pickup');
+        var deliveryRadio = document.getElementById('ot-delivery');
+        var addressWrap   = document.getElementById('co-address-wrap');
+
+        function handleOrderTypeChange() {
+            isDelivery = deliveryRadio.checked;
+            addressWrap.style.display = isDelivery ? 'block' : 'none';
+            updateTotals();
+        }
+        if (pickupRadio)   pickupRadio.addEventListener('change', handleOrderTypeChange);
+        if (deliveryRadio) deliveryRadio.addEventListener('change', handleOrderTypeChange);
+
+        // ── SCHEDULE TOGGLE ──
+        var scheduleCb     = document.getElementById('co-schedule-cb');
+        var scheduleFields = document.getElementById('co-schedule-fields');
+        if (scheduleCb) {
+            scheduleCb.addEventListener('change', function() {
+                if (this.checked) {
+                    scheduleFields.classList.add('show');
+                } else {
+                    scheduleFields.classList.remove('show');
+                }
+            });
+        }
+
+        // ── GPS ──
+        var gpsBtnEl = document.getElementById('co-gps-btn');
+        if (gpsBtnEl) {
+            gpsBtnEl.addEventListener('click', function() {
+                if (!navigator.geolocation) return;
+                gpsBtnEl.textContent = '📍 Locating...';
+                gpsBtnEl.disabled = true;
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    var lat = pos.coords.latitude, lon = pos.coords.longitude;
+                    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lon+'&accept-language=en')
+                        .then(function(r) { return r.json(); })
+                        .then(function(data) {
+                            var addr = data.display_name || (lat+', '+lon);
+                            document.getElementById('co-address').value = addr;
+                            gpsBtnEl.textContent = '✅ Location Set';
+                        })
+                        .catch(function() {
+                            document.getElementById('co-address').value = lat+', '+lon;
+                            gpsBtnEl.textContent = '✅ Location Set';
+                        });
+                }, function() {
+                    gpsBtnEl.textContent = '📍 Use My Current Location';
+                    gpsBtnEl.disabled = false;
+                });
+            });
+        }
+
+        // ── CARD NUMBER FORMATTING ──
+        var cardNumInput = document.getElementById('co-num');
+        var cardIcon     = document.getElementById('card-type-icon');
+        if (cardNumInput) {
+            cardNumInput.addEventListener('input', function() {
+                var v = this.value.replace(/\D/g,'').substring(0,16);
+                this.value = v.replace(/(.{4})/g,'$1  ').trim();
+                var first = v[0];
+                if (first==='4') cardIcon.textContent = '💳'; // visa
+                else if (first==='5') cardIcon.textContent = '🟠'; // mc
+                else if (first==='3') cardIcon.textContent = '🔷'; // amex
+                else cardIcon.textContent = '💳';
+            });
+        }
+
+        // ── EXPIRY FORMATTING ──
+        var expInput = document.getElementById('co-exp');
+        if (expInput) {
+            expInput.addEventListener('input', function() {
+                var v = this.value.replace(/\D/g,'').substring(0,4);
+                if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+                this.value = v;
+            });
+        }
+
+        // ── COUPON ──
+        var couponInput = document.getElementById('co-coupon');
+        var couponBtn   = document.getElementById('co-coupon-btn');
+        var COUPONS     = { 'SWEET10': 10, 'BAKE20': 20, 'FIRST15': 15 };
+        if (couponBtn) {
+            couponBtn.addEventListener('click', function() {
+                var code = (couponInput.value || '').trim().toUpperCase();
+                if (COUPONS[code] !== undefined) {
+                    discountPct = COUPONS[code];
+                    updateTotals();
+                    showNotice('🎉 Coupon applied! ' + discountPct + '% off', 'success');
+                    couponInput.value = '';
+                    couponBtn.textContent = '✅ Applied';
+                    couponBtn.disabled = true;
+                } else {
+                    showNotice('Invalid coupon code', 'error');
+                    couponInput.value = '';
+                }
+            });
+        }
+
+        // ── FORM SUBMIT ──
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!cart || cart.length === 0) {
+                    showNotice('Your tray is empty!', 'error'); return;
+                }
+
+                // Basic validation
+                var name = (document.getElementById('co-name').value || '').trim();
+                var num  = (document.getElementById('co-num').value || '').replace(/\s/g,'');
+                var exp  = (document.getElementById('co-exp').value || '').replace(/\s/g,'');
+                var cvv  = (document.getElementById('co-cvv').value || '').trim();
+                if (!name) { showNotice('Please enter the name on card', 'error'); document.getElementById('co-name').focus(); return; }
+                if (num.length < 13) { showNotice('Please enter a valid card number', 'error'); document.getElementById('co-num').focus(); return; }
+                if (exp.length < 4) { showNotice('Please enter a valid expiry date', 'error'); document.getElementById('co-exp').focus(); return; }
+                if (cvv.length < 3) { showNotice('Please enter CVV', 'error'); document.getElementById('co-cvv').focus(); return; }
+
+                if (payBtn.disabled) return;
+                payBtn.disabled = true;
+                payBtn.textContent = '⌛ Processing...';
+
+                setTimeout(function() {
+                    try {
+                        var del = deliveryRadio && deliveryRadio.checked;
+                        var addr = del ? (document.getElementById('co-address').value || '') : 'Store Pickup';
+                        var scheduled = scheduleCb && scheduleCb.checked;
+                        var schedDate = (document.getElementById('co-date') || {}).value || '';
+                        var schedTime = (document.getElementById('co-time') || {}).value || '';
+
+                        var sub   = calcSubtotal();
+                        var disc  = sub * discountPct / 100;
+                        var delFee = del ? 5 : 0;
+                        var tax   = (sub - disc + delFee) * 0.08;
+                        var grand = (sub - disc + delFee + tax).toFixed(2);
+
+                        var dateStr = new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+                        if (scheduled && schedDate && schedTime) dateStr = 'Pre-Order: ' + schedDate + ' at ' + schedTime;
+
+                        var orderId = 'SD-' + Math.floor(Math.random()*90000+10000);
+                        var currentUser = SS.getJ('bakeryCurrentUser', null);
+                        var order = {
+                            id: orderId,
+                            customerName: name,
+                            customerEmail: currentUser ? currentUser.email : '',
+                            date: dateStr,
+                            orderType: del ? 'Delivery' : 'Pickup',
+                            address: addr,
+                            items: cart.slice(),
+                            total: '$' + grand,
+                            status: 1
+                        };
+
+                        // Save
+                        var history = SS.getJ('bakeryOrders', []);
+                        history.unshift(order);
+                        SS.setJ('bakeryOrders', history);
+
+                        // Clear cart
+                        SS.setJ('bakeryCart', []);
+                        cart = [];
+
+                        // Loyalty points
+                        if (currentUser && currentUser.email) {
+                            var pts = Math.floor(parseFloat(grand));
+                            currentUser.loyaltyPoints = (currentUser.loyaltyPoints||0) + pts;
+                            SS.setJ('bakeryCurrentUser', currentUser);
+                            var users = SS.getJ('bakeryUsers', []);
+                            var ui = users.findIndex ? users.findIndex(function(u){return u.email===currentUser.email;}) : -1;
+                            if (ui >= 0) { users[ui].loyaltyPoints = currentUser.loyaltyPoints; SS.setJ('bakeryUsers', users); }
+                        }
+
+                        // Email (fire & forget)
+                        try {
+                            var ctrl = new AbortController();
+                            setTimeout(function(){ctrl.abort();}, 5000);
+                            fetch('https://formspree.io/f/xvzwzlln', {
+                                method:'POST', signal:ctrl.signal,
+                                headers:{'Content-Type':'application/json'},
+                                body: JSON.stringify({Subject:'New Order #'+orderId, Customer:name, Total:'$'+grand})
+                            }).catch(function(){});
+                        } catch(fe) {}
+
+                        // Confetti
+                        try { if (typeof window.confetti==='function') window.confetti({particleCount:160,spread:80,origin:{y:0.5},zIndex:9999}); } catch(ce){}
+
+                        // Show success
+                        pageMain.style.display = 'none';
+                        successState.classList.add('show');
+                        document.getElementById('co-success-name').textContent = name;
+                        document.getElementById('co-success-order-id').textContent = 'Order #' + orderId;
+                        window.scrollTo({top:0,behavior:'smooth'});
+
+                    } catch(err) {
+                        console.error(err);
+                        payBtn.disabled = false;
+                        payBtn.innerHTML = 'Pay <span id="co-pay-amount">$' + calcSubtotal().toFixed(2) + '</span>';
+                        showNotice('Something went wrong. Please try again.', 'error');
+                    }
+                }, 1800);
+            });
+        }
+
+        // ── INLINE NOTICE (no dependency on script.js) ──
+        function showNotice(msg, type) {
+            var existing = document.getElementById('co-notice');
+            if (existing) existing.remove();
+            var el = document.createElement('div');
+            el.id = 'co-notice';
+            el.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 22px;border-radius:12px;font-family:Outfit,sans-serif;font-size:0.9rem;font-weight:600;z-index:999999;box-shadow:0 4px 20px rgba(0,0,0,0.18);transition:opacity 0.3s;white-space:nowrap;max-width:calc(100vw - 32px);text-align:center;';
+            if (type === 'error')   el.style.cssText += 'background:#e74c3c;color:white;';
+            else if (type === 'success') el.style.cssText += 'background:#27ae60;color:white;';
+            else el.style.cssText += 'background:#1e1208;color:white;';
+            el.textContent = msg;
+            document.body.appendChild(el);
+            setTimeout(function() { el.style.opacity = '0'; setTimeout(function(){el.remove();}, 300); }, 3200);
+        }
+
+        // ── INIT ──
+        renderCart();
+
+    })();
+    </script>
+</body>
+</html>

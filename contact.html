@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Delights | Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-fade-in">
+    <div class="scroll-progress-container"><div class="scroll-progress-bar" id="myBar"></div></div>
+
+    <nav class="navbar glass-nav">
+        <h1 class="logo">Sweet Delights</h1>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+            <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+        </ul>
+    </nav>
+
+    <section class="contact-section">
+        <div class="contact-container glass-card fade-up">
+            <h2>Order a Custom Cake 🎂</h2>
+            <p style="color:var(--text-muted);margin-bottom:6px;">Tell us about your dream dessert — we'll bake it into reality!</p>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:0;">We respond within 2 hours during bakery hours (7am–7pm).</p>
+            <form id="orderForm" class="custom-form">
+                <div class="input-group">
+                    <input type="text" id="name" required autocomplete="name" placeholder=" ">
+                    <label for="name">Your Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" required autocomplete="email" placeholder=" ">
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="phone" autocomplete="tel" placeholder=" ">
+                    <label for="phone">Phone Number (Optional)</label>
+                </div>
+                <div class="input-group">
+                    <input type="date" id="date" required>
+                    <label for="date" class="date-label">Date Needed</label>
+                </div>
+                <div class="input-group">
+                    <textarea id="details" rows="4" required placeholder=" "></textarea>
+                    <label for="details">Flavor, Size, Decoration & Notes...</label>
+                </div>
+                <button type="submit" class="btn submit-btn" id="submitBtn" style="width:100%;margin-top:0;">
+                    <span class="btn-text">Send Request ✉️</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <a href="https://wa.me/919876543210" class="floating-chat" target="_blank" title="Chat with us!">
+        <span style="font-size:32px;">💬</span>
+    </a>
+
+    <footer class="footer">
+        <h3>Sweet Delights Bakery</h3>
+        <p>123 Baker Street, Pastryville | (555) 123-4567</p>
+        <p style="margin-top:14px;font-size:0.78rem;opacity:0.4;">&copy; <span id="current-year"></span> Sweet Delights Bakery.</p>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>

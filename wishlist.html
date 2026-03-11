@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Delights | My Wishlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-fade-in">
+    <div class="scroll-progress-container"><div class="scroll-progress-bar" id="myBar"></div></div>
+    <nav class="navbar glass-nav">
+        <h1 class="logo">Sweet Delights</h1>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="wishlist.html" class="active">Wishlist</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+            <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            <li><button id="tray-toggle" class="tray-btn">🛍️ <span id="tray-badge" class="badge">0</span></button></li>
+        </ul>
+    </nav>
+
+    <section class="menu-section" style="padding-top:150px;min-height:80vh;">
+        <h2 class="fade-up">My Sweet Wishlist 🤍</h2>
+        <p class="section-subtitle fade-up delay-1">Items you're saving for later — or adding right now!</p>
+        <div class="menu-grid" id="wishlist-container"></div>
+    </section>
+
+    <footer class="footer">
+        <p>Sweet Delights Bakery | Pastryville</p>
+        <p style="margin-top:10px;font-size:0.78rem;opacity:0.4;">&copy; <span id="current-year"></span> Sweet Delights Bakery.</p>
+    </footer>
+
+    <!-- TRAY SIDEBAR -->
+    <div id="tray-sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Your Pastry Tray 🛍️</h2>
+            <button id="close-tray" class="close-sidebar">&times;</button>
+        </div>
+        <div class="sidebar-content" id="tray-items"></div>
+        <div class="sidebar-footer">
+            <div class="coupon-container">
+                <input type="text" id="coupon-input" placeholder="Coupon (Try: SWEET10)">
+                <button id="apply-coupon">Apply</button>
+            </div>
+            <div class="bill-details">
+                <div class="bill-row"><span>Subtotal:</span><span id="tray-subtotal">$0.00</span></div>
+                <div class="bill-row"><span>Discount:</span><span id="tray-discount" style="color:#27ae60;">-$0.00</span></div>
+                <div class="bill-row"><span>Tax (5%):</span><span id="tray-tax">$0.00</span></div>
+                <div class="bill-row total-row"><span>Final Bill:</span><span id="tray-total-price">$0.00</span></div>
+            </div>
+            <button id="place-order-btn" class="btn checkout-btn ripple">Place Order 🎉</button>
+        </div>
+    </div>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="modal-overlay">
+        <div class="checkout-card">
+            <span class="close-modal" id="close-checkout">&times;</span>
+            <h3 style="color:var(--primary);margin-top:0;font-size:1.5rem;">Secure Checkout 🔒</h3>
+            <form id="payment-form" class="custom-form">
+                <div class="input-group"><input type="text" id="cc-name" required placeholder=" "><label for="cc-name">Name on Card</label></div>
+                <div class="input-group"><input type="text" id="cc-num" maxlength="19" required placeholder=" "><label for="cc-num">Card Number</label></div>
+                <div style="display:flex;gap:14px;">
+                    <div class="input-group" style="flex:1;"><input type="text" id="cc-exp" maxlength="5" required placeholder=" "><label for="cc-exp">MM/YY</label></div>
+                    <div class="input-group" style="flex:1;"><input type="password" id="cc-cvv" maxlength="3" required placeholder=" "><label for="cc-cvv">CVV</label></div>
+                </div>
+                <button type="submit" class="btn checkout-btn ripple" id="pay-now-btn" style="width:100%;margin-top:10px;">Pay <span id="pay-amount">$0.00</span></button>
+            </form>
+        </div>
+    </div>
+
+    <button id="back-to-top" class="back-to-top">↑</button>
+    <div id="toast-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

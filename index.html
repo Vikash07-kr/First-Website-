@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sweet Delights Bakery — Handcrafted pastries, warm bread, and unforgettable flavors. Order online!">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧁</text></svg>">
+    <title>Sweet Delights Bakery | Artisan Pastries & Breads</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body class="page-fade-in">
+
+    <!-- PRELOADER -->
+    <div id="premium-loader">
+        <div class="loader-content">
+            <span class="loader-title">Baking Masterpieces</span>
+            <span class="loader-percentage" id="loader-percentage">0%</span>
+            <div class="loader-bar-container"><div class="loader-bar-fill"></div></div>
+        </div>
+    </div>
+
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="myBar"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar glass-nav">
+        <h1 class="logo">Sweet Delights</h1>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="orders.html">My Orders</a></li>
+            <li><span id="store-status" class="store-status-badge">🟢 Open</span></li>
+            <li><a href="#" id="auth-nav-link" class="nav-pill">👤 Login</a></li>
+            <li><button id="theme-toggle" class="theme-btn" title="Toggle Dark Mode">🌙</button></li>
+            <li>
+                <button id="tray-toggle" class="tray-btn" title="View Order Tray">
+                    🛍️ <span id="tray-badge" class="badge">0</span>
+                </button>
+            </li>
+            <li><button id="installAppBtn" class="nav-pill" style="display:none;background:#27ae60;color:white;border-color:#27ae60;">📲 Install</button></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SLIDESHOW -->
+    <header class="hero">
+        <div class="hero-slider">
+            <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1555507036-ab1e4006aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+            <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">Artisan Bakery — Est. 2010</div>
+            <h2>Baked with Love,<br>Served with Joy</h2>
+            <p>Handcrafted pastries, warm bread, and unforgettable flavors — made fresh every single morning.</p>
+            <div class="hero-buttons">
+                <a href="#featured" class="btn">View Today's Menu</a>
+                <a href="contact.html" class="btn btn-outline">Order Custom Cake</a>
+            </div>
+        </div>
+        <div class="slide-dots"></div>
+    </header>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-inner">
+            <span>✦ Baked Fresh Daily</span><span>✦ Organic Ingredients</span><span>✦ Made with Love</span><span>✦ 100% Sourdough</span><span>✦ Free Delivery Over $30</span><span>✦ Gluten-Free Options</span><span>✦ Baked Fresh Daily</span><span>✦ Organic Ingredients</span><span>✦ Made with Love</span><span>✦ 100% Sourdough</span><span>✦ Free Delivery Over $30</span><span>✦ Gluten-Free Options</span>
+        </div>
+    </div>
+
+    <!-- FEATURED MENU -->
+    <section id="featured" class="menu-section">
+        <h2 class="fade-up">Today's Signatures</h2>
+        <p class="section-subtitle fade-up delay-1">Each item crafted fresh every morning by our artisan bakers</p>
+        <div class="search-container fade-up delay-1">
+            <input type="text" id="menu-search" placeholder="Search for a sweet treat...">
+        </div>
+        <div class="menu-filters fade-up delay-2">
+            <button class="filter-btn active" data-filter="all">All Treats</button>
+            <button class="filter-btn" data-filter="pastries">Pastries</button>
+            <button class="filter-btn" data-filter="breads">Breads</button>
+            <button class="filter-btn" data-filter="cakes">Cakes</button>
+            <button class="filter-btn" data-filter="drinks">Drinks</button>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Pastries -->
+            <div class="menu-card tilt-card fade-up delay-1" data-category="pastries">
+                <span class="dietary-badge bestseller" data-tooltip="Our Most Loved Pastry!">⭐ Bestseller</span>
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fef9ef,#fff3d0);">🥐</div>
+                </div>
+                <h3>Almond Croissant</h3>
+                <p>Buttery layers topped with toasted almonds and powdered sugar.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Almond Croissant" data-price="$4.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Almond Croissant" data-price="$4.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-2" data-category="pastries">
+                <span class="dietary-badge" data-tooltip="100% Eggless & Fresh Berries">🌱 Eggless</span>
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fff0f3,#ffe0e8);">🍓</div>
+                </div>
+                <h3>Strawberry Tart</h3>
+                <p>Fresh berries on a bed of silky vanilla bean custard.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Strawberry Tart" data-price="$5.00">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Strawberry Tart" data-price="$5.00">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-3" data-category="pastries">
+                <span class="dietary-badge new-badge" data-tooltip="Just added this week!">🆕 New</span>
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fffbf0,#fff5d6);">🥧</div>
+                </div>
+                <h3>Butter Madeleine</h3>
+                <p>Classic French sponge cakes with a delicate lemon zest glaze.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Butter Madeleine" data-price="$3.75">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Butter Madeleine" data-price="$3.75">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Breads -->
+            <div class="menu-card tilt-card fade-up delay-1" data-category="breads">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fdf0df,#ffe8c4);">🥖</div>
+                </div>
+                <h3>Rustic Baguette</h3>
+                <p>Traditional French style, baked fresh every hour — crispy crust, soft inside.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Rustic Baguette" data-price="$3.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Rustic Baguette" data-price="$3.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-2" data-category="breads">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#3e2723,#5d4037);color:white;">🍫</div>
+                </div>
+                <h3>Chocolate Babka</h3>
+                <p>Rich, twisted dough layered with dark Belgian chocolate — a showstopper.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Chocolate Babka" data-price="$6.00">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Chocolate Babka" data-price="$6.00">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-3" data-category="breads">
+                <span class="dietary-badge" data-tooltip="100% Sourdough — No Yeast!">🌾 Sourdough</span>
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#efe0c8,#e5d0b0);">🍞</div>
+                </div>
+                <h3>Country Sourdough</h3>
+                <p>Slow-fermented for 36 hours. Chewy crumb, crackling crust.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Country Sourdough" data-price="$7.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Country Sourdough" data-price="$7.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Cakes -->
+            <div class="menu-card tilt-card fade-up delay-1" data-category="cakes">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fffde7,#fff9c4);">🍋</div>
+                </div>
+                <h3>Lemon Meringue Pie</h3>
+                <p>Zesty lemon curd with perfectly torched meringue — a classic reimagined.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Lemon Meringue Pie" data-price="$5.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Lemon Meringue Pie" data-price="$5.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-2" data-category="cakes">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#4e342e,#6d4c41);color:white;">☕</div>
+                </div>
+                <h3>Espresso Brownie</h3>
+                <p>Fudgy chocolate brownie infused with single-origin espresso. Intensely good.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Espresso Brownie" data-price="$4.00">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Espresso Brownie" data-price="$4.00">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-3" data-category="cakes">
+                <span class="dietary-badge bestseller" data-tooltip="Weekend Special!">⭐ Special</span>
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0);">🎂</div>
+                </div>
+                <h3>Strawberry Layer Cake</h3>
+                <p>Three layers of vanilla sponge, fresh cream and strawberry compote.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Strawberry Layer Cake" data-price="$8.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Strawberry Layer Cake" data-price="$8.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <!-- Drinks -->
+            <div class="menu-card tilt-card fade-up delay-1" data-category="drinks">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#e8d5b0,#d4b896);">☕</div>
+                </div>
+                <h3>Artisan Latte</h3>
+                <p>Single-origin espresso with steamed whole milk and latte art.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Artisan Latte" data-price="$3.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Artisan Latte" data-price="$3.50">🤍 Save</button>
+                </div>
+            </div>
+
+            <div class="menu-card tilt-card fade-up delay-2" data-category="drinks">
+                <div class="card-image-wrapper">
+                    <div class="img-placeholder" style="background:linear-gradient(135deg,#e1f5fe,#b3e5fc);">🍵</div>
+                </div>
+                <h3>Matcha Oat Latte</h3>
+                <p>Ceremonial grade matcha with creamy oat milk. Earthy and smooth.</p>
+                <div class="card-actions">
+                    <button class="btn wishlist-btn ripple" data-name="Matcha Oat Latte" data-price="$4.50">🛍️ Add</button>
+                    <button class="btn save-wishlist-btn ripple" data-name="Matcha Oat Latte" data-price="$4.50">🤍 Save</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAILY SPECIALS -->
+    <section class="specials-section">
+        <h2 class="fade-up">Today's Specials 🔥</h2>
+        <p class="section-subtitle fade-up delay-1">Limited time offers — grab them while they last!</p>
+        <div class="specials-grid">
+            <div class="special-card fade-up delay-1">
+                <div class="special-badge">SALE</div>
+                <span class="special-emoji">🥐</span>
+                <h4>Morning Bundle</h4>
+                <p>2 Croissants + 1 Latte — perfect start to your day</p>
+                <div><span class="special-original">$11.50</span><span class="special-price">$8.99</span></div>
+            </div>
+            <div class="special-card fade-up delay-2">
+                <div class="special-badge">HOT</div>
+                <span class="special-emoji">🎂</span>
+                <h4>Birthday Cake Box</h4>
+                <p>Custom 6-inch celebration cake with your message</p>
+                <div><span class="special-original">$35.00</span><span class="special-price">$28.00</span></div>
+            </div>
+            <div class="special-card fade-up delay-3">
+                <div class="special-badge">NEW</div>
+                <span class="special-emoji">🍞</span>
+                <h4>Baker's Dozen</h4>
+                <p>13 assorted pastries — perfect for the office or family</p>
+                <div><span class="special-original">$52.00</span><span class="special-price">$39.99</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEEDBACK & REVIEWS -->
+    <section class="feedback-section">
+        <h2 class="fade-up">Share Your Experience ⭐</h2>
+        <div class="feedback-container fade-up delay-1">
+            <p style="color:var(--text-muted);margin-bottom:18px;">How was your Sweet Delights visit? We'd love to know!</p>
+            <div class="stars" id="star-rating">
+                <span data-value="1">★</span><span data-value="2">★</span>
+                <span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+            </div>
+            <textarea id="feedback-text" placeholder="Tell us what you loved (or what we can improve)..." rows="3"></textarea>
+            <button id="submit-feedback" class="btn ripple" style="width:100%;margin-top:0;">Submit Feedback 💬</button>
+            <p id="feedback-success" class="hidden-msg">Thank you for your sweet feedback! 🍰</p>
+        </div>
+        <div id="public-reviews-container" style="max-width:800px;margin:44px auto 0;padding:0 20px;"></div>
+    </section>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/917848894498?text=Hello%20Sweet%20Delights%2C%20I%20need%20help!" class="floating-chat" target="_blank" title="Chat on WhatsApp">
+        <span style="font-size:32px;">💬</span>
+    </a>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <h3>Sweet Delights Bakery</h3>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="wishlist.html">Wishlist</a>
+            <a href="orders.html">My Orders</a>
+            <a href="admin.html">Admin</a>
+        </div>
+        <hr class="footer-divider">
+        <div class="newsletter-section">
+            <h4>Get Sweet Deals in Your Inbox 💌</h4>
+            <form id="newsletter-form">
+                <input type="email" id="news-email" placeholder="your@email.com" required>
+                <button type="submit" class="btn ripple" style="margin-top:0;padding:12px 20px;">Subscribe</button>
+            </form>
+        </div>
+        <hr class="footer-divider">
+        <p>123 Baker Street, Pastryville | 7848894498</p>
+        <div class="social-links">📱 📸 🐦</div>
+        <p style="margin-top:20px;font-size:0.78rem;opacity:0.4;">&copy; <span id="current-year"></span> Sweet Delights Bakery. All rights reserved.</p>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button id="back-to-top" class="back-to-top" title="Go to top">↑</button>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Bakery Item">
+    </div>
+
+    <!-- ORDER TRAY SIDEBAR -->
+    <div id="tray-sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Your Pastry Tray 🛍️</h2>
+            <button id="close-tray" class="close-sidebar">&times;</button>
+        </div>
+        <div class="sidebar-content" id="tray-items"></div>
+        <div class="upsell-section" id="upsell-section">
+            <p class="upsell-title">Goes great with your treats! 👇</p>
+            <div class="upsell-items">
+                <div class="upsell-item"><span>☕</span><p>Hot Coffee</p><p>$2.50</p><button class="upsell-add ripple" data-name="Hot Coffee" data-price="$2.50" data-emoji="☕" data-bg="#4e342e">Add</button></div>
+                <div class="upsell-item"><span>🥛</span><p>Cold Milk</p><p>$1.50</p><button class="upsell-add ripple" data-name="Cold Milk" data-price="$1.50" data-emoji="🥛" data-bg="#fdfbf7">Add</button></div>
+                <div class="upsell-item"><span>🍫</span><p>Choco Dip</p><p>$0.75</p><button class="upsell-add ripple" data-name="Choco Dip" data-price="$0.75" data-emoji="🍫" data-bg="#3e2723">Add</button></div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <div class="coupon-container">
+                <input type="text" id="coupon-input" placeholder="Coupon code (Try: SWEET10)">
+                <button id="apply-coupon">Apply</button>
+            </div>
+            <div class="bill-details">
+                <div class="bill-row"><span>Subtotal:</span><span id="tray-subtotal">$0.00</span></div>
+                <div class="bill-row"><span>Discount:</span><span id="tray-discount" style="color:#27ae60;">-$0.00</span></div>
+                <div class="bill-row"><span>Tax (5%):</span><span id="tray-tax">$0.00</span></div>
+                <div class="bill-row total-row"><span>Final Bill:</span><span id="tray-total-price">$0.00</span></div>
+            </div>
+            <button id="place-order-btn" class="btn checkout-btn ripple" onclick="window.__placeOrderNav()">Place Order 🎉</button>
+        </div>
+    </div>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div id="quick-view-modal" class="modal-overlay">
+        <div class="quick-view-card">
+            <span class="close-modal" id="close-quick-view">&times;</span>
+            <div class="qv-image" id="qv-image">🧁</div>
+            <div class="qv-details">
+                <h2 class="qv-title" id="qv-title">Pastry Name</h2>
+                <p class="qv-price" id="qv-price">$0.00</p>
+                <p class="qv-desc" id="qv-desc">Freshly baked with love and premium ingredients!</p>
+                <div class="qv-qty-selector">
+                    <button class="qty-btn" id="qv-minus">−</button>
+                    <span class="qty-num" id="qv-qty">1</span>
+                    <button class="qty-btn" id="qv-plus">+</button>
+                </div>
+                <button class="btn ripple" id="qv-add-to-cart" style="width:100%;margin-top:0;">🛍️ Add to Tray</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="checkout-card">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <h3 id="auth-title" style="color:var(--primary);margin-top:0;font-size:1.6rem;">Welcome Back! 👋</h3>
+            <form id="auth-form" class="custom-form">
+                <div class="input-group" id="name-group" style="display:none;">
+                    <input type="text" id="auth-name" placeholder=" ">
+                    <label for="auth-name">Full Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="auth-email" required placeholder=" ">
+                    <label for="auth-email">Email Address</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="auth-pass" required placeholder=" ">
+                    <label for="auth-pass">Password</label>
+                </div>
+                <button type="submit" class="btn ripple" style="width:100%;margin-top:0;">Submit</button>
+                <p style="margin-top:16px;font-size:0.88rem;color:var(--text-muted);cursor:pointer;text-align:center;" id="toggle-auth">Don't have an account? Sign up</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js" charset="UTF-8"></script>
+</body>
+</html>
